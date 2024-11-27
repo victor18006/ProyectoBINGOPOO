@@ -10,6 +10,7 @@ import java.util.ArrayList;
  *
  * @author VOM
  */
+
 public class ConfiguracionCarta {
 
     private ArrayList<Integer> numerosConfiguracion; // Almacena los números de la configuración
