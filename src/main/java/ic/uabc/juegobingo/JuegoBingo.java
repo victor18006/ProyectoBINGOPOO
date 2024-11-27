@@ -3,8 +3,6 @@
  */
 package ic.uabc.juegobingo;
 
-import java.util.Scanner;
-
 /**
  *
  * @author VOM

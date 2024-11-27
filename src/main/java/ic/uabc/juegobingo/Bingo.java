@@ -39,13 +39,6 @@ public class Bingo {
         return false;
     }
 
-    // Determinar si un jugador ha ganado
-    /*public boolean determinarSiGano(Carta carta) {
-        // Aquí defines la lógica para verificar si la carta ha ganado
-        // Por ejemplo, puedes verificar si todos los números han sido marcados
-        return carta.comprobarSiGano();
-    }*/
-
     // Método para iniciar el juego con interacciones
     public void iniciarJuego() {
         // Crear y asignar cartas, puedes añadir más cartas aquí según el número de jugadores
