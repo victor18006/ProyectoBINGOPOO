@@ -10,8 +10,8 @@ import java.util.ArrayList;
  *
  * @author VOM
  */
-
 public class ConfiguracionCarta {
+
     private ArrayList<Integer> numerosConfiguracion; // Almacena los números de la configuración
 
     public ConfiguracionCarta() {
@@ -23,14 +23,14 @@ public class ConfiguracionCarta {
     }
 
     // Configurar la carta según la configuración seleccionada
-    public void configurarCartaConConfiguracion(Carta carta, int configuracion) {
+    /*public void configurarCartaConConfiguracion(Carta carta, int configuracion) {
         numerosConfiguracion.clear(); // Limpiar para evitar acumulaciones
 
         switch (configuracion) {
             case 1:
                 // Tomar los valores de la primera fila de la carta
                 for (int i = 0; i < 5; i++) {
-                    String valor = carta.getPosicion()[0][i]; // Primera fila
+                    String valor = carta.getPosicion()[i][0]; // Primera columna
                     if (!valor.equals("*")) { // Ignorar el espacio vacío si existiera
                         numerosConfiguracion.add(Integer.parseInt(valor));
                     }
@@ -46,5 +46,34 @@ public class ConfiguracionCarta {
                 System.out.println("Configuración no válida. Intenta de nuevo.");
                 break;
         }
+    }*/
+    public ArrayList<Integer> configurarCartaConConfiguracion(Carta carta, int configuracion) {
+        ArrayList<Integer> numerosConfiguracion = new ArrayList<>();
+
+        switch (configuracion) {
+            case 1: // Primera fila
+                // Tomar los valores de la primera fila de la carta
+                for (int i = 0; i < 5; i++) {
+                    String valor = carta.getPosicion()[i][0]; // Primera columna
+                    if (!valor.equals("*")) { // Ignorar el espacio vacío si existiera
+                        numerosConfiguracion.add(Integer.parseInt(valor));
+                    }
+                }
+                System.out.println("Configuración 1: Números de la primera fila: " + numerosConfiguracion);
+                break;
+            case 2: // Segunda fila
+                /*for (int j = 0; j < 5; j++) {
+                    numerosConfiguracion.add(valoresCarta[1][j]);
+                }*/
+                break;
+            // Agrega más configuraciones según sea necesario
+            default:
+                System.out.println("Configuración no válida. Se seleccionará la primera fila por defecto.");
+                /*for (int j = 0; j < 5; j++) {
+                    numerosConfiguracion.add(valoresCarta[0][j]);
+                }*/
+        }
+
+        return numerosConfiguracion;
     }
 }

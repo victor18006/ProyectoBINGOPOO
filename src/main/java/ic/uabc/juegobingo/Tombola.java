@@ -5,6 +5,7 @@
 package ic.uabc.juegobingo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,16 +14,116 @@ import java.util.Scanner;
  * @author VOM
  */
 
-public class Tombola {
-    private ArrayList<Integer> numeros;
-    private Carta carta;  // Referencia a la carta del jugador
+/*public class Tombola {
 
-    // Constructor de Tombola que recibe la carta del jugador
+    private ArrayList<Integer> numeros;       // Números en la tómbola
+    private ArrayList<Integer> historial;    // Historial de números sacados
+    private Carta carta;                     // Referencia a la carta del jugador
+    private ConfiguracionCarta configuracionCarta;
+    private boolean salioBola;
+
     public Tombola(Carta carta) {
-        this.carta = carta;  // Asignamos la carta al objeto Tombola
+        this.carta = carta;
         numeros = new ArrayList<>();
-        // Rellenar el ArrayList con los números del 1 al 75 (o hasta el número que desees)
-        for (int i = 1; i <= 75; i++) {  // Cambia 75 si quieres más bolas
+        historial = new ArrayList<>();
+        // Rellenar la tómbola con números del 1 al 75
+        for (int i = 1; i <= 75; i++) {
+            numeros.add(i);
+        }
+    }
+
+    // Método para sacar una bola aleatoria
+    public int sacarBola() {
+        Random random = new Random();
+        int index = random.nextInt(numeros.size());
+        int bola = numeros.get(index);
+        numeros.remove(index);  // Elimina la bola sacada
+        //historial.add(bola);    // Agregar la bola al historial
+        return bola;
+    }
+
+    // Método para interactuar con el jugador y sacar bolas
+    public void iniciarJuego() {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicitar configuración al jugador
+        configuracionCarta = new ConfiguracionCarta();
+        System.out.println("Ingresa el número de configuración que deseas (1, 2, etc.): ");
+        int configuracion = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        // Configurar la carta según la configuración elegida
+        ArrayList<Integer> numerosConfiguracion = configuracionCarta.configurarCartaConConfiguracion(carta, configuracion);
+        System.out.println("Números seleccionados según la configuración:");
+        System.out.println(numerosConfiguracion);
+
+        // Usar un HashSet para rastrear los números marcados
+        HashSet<Integer> numerosMarcados = new HashSet<>();
+
+        while (true) {
+            System.out.println("\nPresiona '1' para sacar una bola o escribe 'salir' para terminar:");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("salir")) {
+                System.out.println("Juego terminado.");
+                break;
+            }
+
+            if (input.equals("1")) {
+                //salioBola = false;
+                do {
+                    // Inicializamos la bandera en `false` al inicio del ciclo
+                    salioBola = false;
+
+                    int bola = sacarBola();
+                    System.out.println("La bola sacada es: " + bola);
+
+                    // Verificar si la bola está en la configuración
+                    if (numerosConfiguracion.contains(bola)) {
+                        System.out.println("¡La bola " + bola + " está en tu configuración!");
+                        carta.marcarBola(bola); // Marcar el número en la carta
+                        salioBola = true; // Actualizamos la bandera a `true`
+                        historial.add(bola);    // Agregar la bola al historial
+                    } else {
+                        System.out.println("La bola " + bola + " no está en tu configuración.");
+                    }
+
+                    // Mostrar la carta actualizada después de marcar la bola
+                    System.out.println("\nTu carta de Bingo actualizada:");
+                    carta.mostrarCarta();
+
+                    // Mostrar historial
+                    System.out.println("\nHistorial de bolas:");
+                    for (int num : historial) {
+                        String estado = numerosConfiguracion.contains(num) ? " (En configuración)" : " (No en configuración)";
+                        System.out.println("Bola " + num + estado);
+                    }
+                } while (!salioBola); // Repetimos mientras `salioBola` sea `false`
+                
+                if (numerosMarcados.containsAll(numerosConfiguracion)) {
+                    System.out.println("\n¡FELICIDADES! Has completado la configuración. JUEGO TERMINADO.");
+                    break;
+                }
+            } else {
+                System.out.println("Entrada no válida. Intenta de nuevo.");
+            }
+        }
+    }
+}
+*/
+
+public class Tombola {
+    private ArrayList<Integer> numeros;       // Números en la tómbola
+    private ArrayList<Integer> historial;      // Historial de números sacados
+    private Carta carta;                       // Referencia a la carta del jugador
+    private ConfiguracionCarta configuracionCarta;
+    private boolean salioBola;
+
+    public Tombola(Carta carta) {
+        this.carta = carta;
+        numeros = new ArrayList<>();
+        historial = new ArrayList<>();
+        // Rellenar la tómbola con números del 1 al 75
+        for (int i = 1; i <= 75; i++) {
             numeros.add(i);
         }
     }
@@ -36,27 +137,68 @@ public class Tombola {
         return bola;
     }
 
-    // Método para interactuar con el jugador y sacar una bola cuando presiona 1
+    // Método para interactuar con el jugador y sacar bolas
     public void iniciarJuego() {
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Presiona '1' para sacar una bola...");
-            String input = scanner.nextLine();
-            if (input.equals("1")) {
-                int bola = sacarBola();
-                System.out.println("La bola sacada es: " + bola);
-                // Marca la bola en la carta
-                boolean bolaMarcada = carta.marcarBola(bola);  
-                
-                if (bolaMarcada) {
-                    System.out.println("La bola " + bola + " ha sido marcada en tu carta.");
-                } else {
-                    System.out.println("La bola " + bola + " no está en tu carta.");
-                }
 
-                // Muestra la carta actualizada después de marcar la bola
-                System.out.println("Tu carta de Bingo actualizada:");
-                carta.mostrarCarta(); // Muestra la carta después de marcar la bola
+        // Solicitar configuración al jugador
+        configuracionCarta = new ConfiguracionCarta();
+        System.out.println("Ingresa el número de configuración que deseas (1, 2, etc.): ");
+        int configuracion = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        // Configurar la carta según la configuración elegida
+        ArrayList<Integer> numerosConfiguracion = configuracionCarta.configurarCartaConConfiguracion(carta, configuracion);
+        System.out.println("Números seleccionados según la configuración:");
+        System.out.println(numerosConfiguracion);
+
+        // Usar un HashSet para rastrear los números marcados
+        HashSet<Integer> numerosMarcados = new HashSet<>();
+
+        while (true) {
+            System.out.println("\nPresiona '1' para sacar una bola o escribe 'salir' para terminar:");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("salir")) {
+                System.out.println("Juego terminado.");
+                break;
+            }
+
+            if (input.equals("1")) {
+                // Inicializamos la bandera en `false` al inicio del ciclo
+                salioBola = false;
+
+                do {
+                    int bola = sacarBola();
+                    System.out.println("La bola sacada es: " + bola);
+
+                    // Verificar si la bola está en la configuración
+                    if (numerosConfiguracion.contains(bola)) {
+                        System.out.println("¡La bola " + bola + " está en tu configuración!");
+                        carta.marcarBola(bola); // Marcar el número en la carta
+                        numerosMarcados.add(bola); // Añadir al conjunto de números marcados
+                        salioBola = true; // Actualizamos la bandera a `true`
+                        historial.add(bola); // Agregar la bola al historial
+                    } else {
+                        System.out.println("La bola " + bola + " no está en tu configuración.");
+                    }
+
+                    // Mostrar la carta actualizada después de marcar la bola
+                    System.out.println("\nTu carta de Bingo actualizada:");
+                    carta.mostrarCarta();
+
+                    // Mostrar historial
+                    System.out.println("\nHistorial de bolas:");
+                    for (int num : historial) {
+                        String estado = numerosConfiguracion.contains(num) ? " (En configuración)" : " (No en configuración)";
+                        System.out.println("Bola " + num + estado);
+                    }
+                } while (!salioBola); // Repetimos mientras `salioBola` sea `false`
+                
+                // Verificar si se ha completado la configuración
+                if (numerosMarcados.containsAll(numerosConfiguracion)) {
+                    System.out.println("\n¡FELICIDADES! Has completado la configuración. JUEGO TERMINADO.");
+                    break;
+                }
             } else {
                 System.out.println("Entrada no válida. Intenta de nuevo.");
             }
